@@ -1,0 +1,12 @@
+### VS CODE
+.vscode
+
+### ECLIPSE ? ###
+.settings
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+**/__pycache__/**
