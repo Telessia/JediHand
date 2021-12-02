@@ -2,9 +2,10 @@ import mediapipe as mp
 import cv2
 import pycaw as pc
 import detection as dt
+import styles.styles as styles
 
 mp_drawing = mp.solutions.drawing_utils
-mp_drawing_styles = mp.solutions.drawing_styles
+#mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
 
 # For webcam input:
@@ -24,7 +25,7 @@ with mp_hands.Hands(
     # pass by reference.
     image.flags.writeable = False
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    dt.symb_output(image)
+    raisedfingers = dt.symb_output(image)
     results = hands.process(image)
 
     # Draw the hand annotations on the image.
@@ -36,10 +37,16 @@ with mp_hands.Hands(
             image,
             hand_landmarks,
             mp_hands.HAND_CONNECTIONS,
-            mp_drawing_styles.get_default_hand_landmarks_style(),
-            mp_drawing_styles.get_default_hand_connections_style())
+            #mp_drawing_styles.get_default_hand_landmarks_style(),
+            styles.get_default_hand_landmarks_style(),
+            #mp_drawing_styles.get_default_hand_connections_style())
+            styles.get_default_hand_connections_style())
     # Flip the image horizontally for a selfie-view display.
-    cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
+    image = cv2.flip(image, 1)
+    image_height, image_width, _ = image.shape
+    textcoord = (image_width - 200, image_height - 60)
+    cv2.putText(image,str(raisedfingers),textcoord,cv2.FONT_HERSHEY_PLAIN,20,(255,255,255),20)  
+    cv2.imshow('MediaPipe Hands',image)
       
     if cv2.waitKey(5) & 0xFF == 27:
       break

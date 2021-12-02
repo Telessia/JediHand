@@ -1,5 +1,6 @@
 import mediapipe as mp
 import cv2
+import actions
 
 mp_hands = mp.solutions.hands
 
@@ -16,14 +17,26 @@ def symb_output(image):
       print('Handedness:', results.multi_handedness)
       if not results.multi_hand_landmarks:
         print("error")
-        return
+        return -1
       for hand_landmarks in results.multi_hand_landmarks:
         digittab = [hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP], hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP],hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP],hand_landmarks.landmark[mp_hands.HandLandmark.RING_FINGER_TIP],hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_TIP]]
         corehandlimits = (hand_landmarks.landmark[mp_hands.HandLandmark.WRIST].x,hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_MCP].x,hand_landmarks.landmark[mp_hands.HandLandmark.WRIST].y,hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_MCP].y)
         count = 0
+        raisedfingers = 0
         for finger in digittab:
           #coords reverted?
           if finger.y > corehandlimits[3]:
             count = count+1
-        print("Number of fingers" , 5 - count)
+            
+        raisedfingers = 5 - count
+        print("Number of fingers" , raisedfingers)
+        
+        if (raisedfingers == 1):
+          print("increasing volume")
+          actions.increase_volume()
+        if (raisedfingers == 2):
+          print("decreasing volume")
+          actions.decrease_volume()
+          
+        return raisedfingers
         
