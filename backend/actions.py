@@ -7,7 +7,11 @@ def decrease_volume():
     interface = devices.Activate(
         IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
     volume = cast(interface, POINTER(IAudioEndpointVolume))
-    if(volume.GetMasterVolumeLevel()>-98): #TODO fix decrease limits
+    print("volume.GetVolumeRange(): (%s, %s, %s)" % volume.GetVolumeRange())
+    min,max,unkown = volume.GetVolumeRange()
+    if(volume.GetMasterVolumeLevel()-1<=min): #TODO fix decrease limits
+        volume.SetMasterVolumeLevel(min , None)
+    else: 
         volume.SetMasterVolumeLevel(volume.GetMasterVolumeLevel()-1, None)
     print("volume.GetMasterVolumeLevel(): %s" % volume.GetMasterVolumeLevel())
     
@@ -17,6 +21,10 @@ def increase_volume():
     interface = devices.Activate(
         IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
     volume = cast(interface, POINTER(IAudioEndpointVolume))
-    if(volume.GetMasterVolumeLevel()<-2): #TODO fix increase limits
+    print("volume.GetVolumeRange(): (%s, %s, %s)" % volume.GetVolumeRange())
+    min,max,unkown= volume.GetVolumeRange()
+    if(volume.GetMasterVolumeLevel()+1>=max): #TODO fix increase limits
+        volume.SetMasterVolumeLevel(max, None)
+    else: 
         volume.SetMasterVolumeLevel(volume.GetMasterVolumeLevel()+1, None)
     print("volume.GetMasterVolumeLevel(): %s" % volume.GetMasterVolumeLevel())
