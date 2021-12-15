@@ -14,9 +14,10 @@ def index():
 def config():
     if request.method == 'POST':
         datas = request.form
-        app.logger(datas)
-        return jt.save_config(datas)
-    else:
-       # datas = jt.load_config()
-        return render_template("config.html")#, datas)
+        #app.logger(datas)
+        jt.save_config(datas)
+        #return render_template("config.html")
+    
+    datas = jt.load_config()
+    return render_template("config.html", datas = datas)
 

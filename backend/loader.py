@@ -1,11 +1,14 @@
 import json
-path = "../shared/config.json"
+path = "shared/config.json"
 
-f = open(path)
+array = []
+def load_from_json():
+    f = open(path)
 
-data = json.load(f)
- 
-for d in data['commands']:
-    print(d)
- 
-f.close()
+    data = json.load(f)
+    
+    d = data["affectedCommandsFigure"]
+    
+    f.close()
+    
+    return d

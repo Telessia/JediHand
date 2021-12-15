@@ -10,7 +10,7 @@ def load_config():
         with open(path) as f:
             data = json.load(f)
             # Output: {'name': 'Bob', 'languages': ['English', 'Fench']}
-            print(data)
+            return data
     except OSError:
         print('cannot open',path)
         

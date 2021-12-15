@@ -1,8 +1,8 @@
 import mediapipe as mp
 import cv2
-import pycaw as pc
 import detection as dt
 import styles.styles as styles
+import actionselector as a_s
 
 mp_drawing = mp.solutions.drawing_utils
 #mp_drawing_styles = mp.solutions.drawing_styles
@@ -25,7 +25,8 @@ with mp_hands.Hands(
     # pass by reference.
     image.flags.writeable = False
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    raisedfingers = dt.symb_output(image)
+    raisedfingers = dt.process_image(image)
+    a_s.select(raisedfingers)
     results = hands.process(image)
 
     # Draw the hand annotations on the image.

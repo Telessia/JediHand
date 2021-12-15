@@ -4,7 +4,7 @@ import actions
 
 mp_hands = mp.solutions.hands
 
-def symb_output(image):
+def process_image(image):
     # For static images:
     with mp_hands.Hands(
       static_image_mode=True,
@@ -30,13 +30,6 @@ def symb_output(image):
             
         raisedfingers = 5 - count
         print("Number of fingers" , raisedfingers)
-        
-        if (raisedfingers == 1):
-          print("increasing volume")
-          actions.increase_volume()
-        if (raisedfingers == 2):
-          print("decreasing volume")
-          actions.decrease_volume()
           
         return raisedfingers
         
