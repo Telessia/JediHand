@@ -21,3 +21,6 @@ def config():
     datas = jt.load_config()
     return render_template("config.html", datas = datas)
 
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=80)
+
