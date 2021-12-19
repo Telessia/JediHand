@@ -6,20 +6,22 @@ import functions.json_tools as jt
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/", methods=['GET','POST'])
 def index():
-    return render_template("index.html")
-
-@app.route("/config/", methods=['GET','POST'])
-def config():
     if request.method == 'POST':
-        datas = request.form
-        #app.logger(datas)
-        jt.save_config(datas)
-        #return render_template("config.html")
-    
-    datas = jt.load_config()
-    return render_template("config.html", datas = datas)
+
+        #On récupère le string du dictionnaire d'affectedCommandsFigure
+        dictStringCommand = request.form.getlist("possibleCommands")[0]
+        dictStringFigure = request.form.getlist("possibleFigures")[0]
+        dictStringAffectation = request.form.getlist("affectedCommands")[0]
+        #print("Affichage des commandes possibles : \n")
+        #print(request.form.getlist("affectedCommands")[0])
+        #print("\n")
+
+        #jt.save_config("", "", "")
+        jt.save_config(dictStringCommand, dictStringFigure, dictStringAffectation)
+
+    return render_template("index.html")
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=80)
