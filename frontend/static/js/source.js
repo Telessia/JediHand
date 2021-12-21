@@ -1,7 +1,7 @@
 
 let dropdownMenu = document.getElementsByClassName('option')[0];
 
-fetch("./static/js/simple.json")
+fetch("./static/js/config.json")
 .then(response => {
    return response.json();
 })

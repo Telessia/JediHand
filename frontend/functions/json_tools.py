@@ -1,7 +1,7 @@
 import json
 import os
 
-path = "shared/config.json"
+path = "frontend/static/js/config.json"
 
 #https://www.programiz.com/python-programming/json
 
