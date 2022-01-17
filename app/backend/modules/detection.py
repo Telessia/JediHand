@@ -1,6 +1,5 @@
 import mediapipe as mp
 import cv2
-import actions
 
 mp_hands = mp.solutions.hands
 
@@ -14,7 +13,7 @@ def process_image(image):
       results = hands.process(image)
 
       ## Print handedness and draw hand landmarks on the image.
-      print('Handedness:', results.multi_handedness)
+      #('Handedness:', results.multi_handedness)
       if not results.multi_hand_landmarks:
         print("error")
         return -1
@@ -29,7 +28,7 @@ def process_image(image):
             count = count+1
             
         raisedfingers = 5 - count
-        print("Number of fingers" , raisedfingers)
+        #print("Number of fingers" , raisedfingers)
           
         return raisedfingers
         
