@@ -7,14 +7,17 @@ import backend.modules.actionselector as a_s
 mp_drawing = mp.solutions.drawing_utils
 #mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
+counter = 0 #count the frame before performing an action
+cache = 0
 
 def stream():
+  cache = 0
   # For webcam input:
   cap = cv2.VideoCapture(0)
   with mp_hands.Hands(
       model_complexity=0,
-      min_detection_confidence=0.5,
-      min_tracking_confidence=0.5) as hands:
+      min_detection_confidence=0.7,
+      min_tracking_confidence=0.7) as hands:
     while cap.isOpened():
       success, image = cap.read()
       if not success:
@@ -27,7 +30,16 @@ def stream():
       image.flags.writeable = False
       image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
       raisedfingers = dt.process_image(image)
-      a_s.select(raisedfingers)
+      idx = raisedfingers #should be replaced by gesture ID
+      if(idx == cache):
+        counter = counter+1
+      else:
+        cache = idx
+        counter = 0
+      if(counter == 4):#frames  
+        a_s.select(raisedfingers)
+        counter = 0
+        
       results = hands.process(image)
 
       # Draw the hand annotations on the image.
@@ -49,6 +61,7 @@ def stream():
       textcoord = (image_width - 200, image_height - 60)
       cv2.putText(image,str(raisedfingers),textcoord,cv2.FONT_HERSHEY_PLAIN,20,(255,255,255),20)  
       #cv2.imshow('MediaPipe Hands',image)
+      print(counter)
       ret, buffer = cv2.imencode('.jpg', image)
       image = buffer.tobytes()
       yield (b'--frame\r\n'

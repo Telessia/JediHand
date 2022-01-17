@@ -10,6 +10,30 @@ h1 {
     margin-bottom: 20px;
 }
 
+.star {
+    font-size: 10px;
+    font-family: "StarWars font";
+    color: #111;
+    text-shadow: -4px -4px 0 #ffd54e, -4px -2px 0 #ffd54e, -4px 0 0 #ffd54e, -4px 2px 0 #ffd54e, -4px 4px 0 #ffd54e, -2px -4px 0 #ffd54e, -2px -2px 0 #ffd54e, -2px 0 0 #ffd54e, -4px 4px 0 #ffd54e, -2px 4px 0 #ffd54e, 0 -4px 0 #ffd54e, 0 -2px 0 #ffd54e, 0 0 0 #ffd54e, 0 2px 0 #ffd54e, 0 4px 0 #ffd54e, 2px -4px 0 #ffd54e, 2px -2px 0 #ffd54e, 2px 0 0 #ffd54e, 2px 4px 0 #ffd54e, 2px 4px 0 #ffd54e, 4px -4px 0 #ffd54e, 4px -2px 0 #ffd54e, 4px 0 0 #ffd54e, 4px 2px 0 #ffd54e, 4px 4px 0 #ffd54e;
+    align-content: center;
+    letter-spacing: 4px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.h2star {
+    font-size: 50px;
+    font-family: "StarWars font";
+    color: #111;
+    text-shadow: -4px -4px 0 #ffd54e, -4px -2px 0 #ffd54e, -4px 0 0 #ffd54e, -4px 2px 0 #ffd54e, -4px 4px 0 #ffd54e, -2px -4px 0 #ffd54e, -2px -2px 0 #ffd54e, -2px 0 0 #ffd54e, -4px 4px 0 #ffd54e, -2px 4px 0 #ffd54e, 0 -4px 0 #ffd54e, 0 -2px 0 #ffd54e, 0 0 0 #ffd54e, 0 2px 0 #ffd54e, 0 4px 0 #ffd54e, 2px -4px 0 #ffd54e, 2px -2px 0 #ffd54e, 2px 0 0 #ffd54e, 2px 4px 0 #ffd54e, 2px 4px 0 #ffd54e, 4px -4px 0 #ffd54e, 4px -2px 0 #ffd54e, 4px 0 0 #ffd54e, 4px 2px 0 #ffd54e, 4px 4px 0 #ffd54e;
+    align-content: center;
+    letter-spacing: 4px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 @font-face {
 	  font-family: "StarWars font";
 	  src: url('Starjedi.ttf');
