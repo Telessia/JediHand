@@ -1,6 +1,5 @@
 import mediapipe as mp
 import cv2
-import actions
 
 mp_hands = mp.solutions.hands
 
