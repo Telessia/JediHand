@@ -63,6 +63,7 @@ with mp_hands.Hands(
     #cv2.imshow('MediaPipe Hands',image)
     print(counter)
     ret, buffer = cv2.imencode('.jpg', image)
+    cv2.imshow("Stream",image)
     image = buffer.tobytes()
   #  yield (b'--frame\r\n'
   #    b'Content-Type: image/jpeg\r\n\r\n' + image + b'\r\n')  # concat frame one by one and show result

@@ -1,5 +1,5 @@
-import loader as ld
-import actions as actions
+import modules.loader as ld
+import modules.actions as actions
 
 d = ld.load_from_json()
 
