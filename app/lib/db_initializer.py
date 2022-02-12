@@ -59,7 +59,7 @@ def init():
 
               "skeleton": skeleton_to_store, #skeleton of the sign (list of lists of floats)
 
-              "default": True, #tell if the sign can be deleted of not, in this function we store base sign so : TRUE
+              "default": True, #tell if the sign canno't be deleted or not, in this function we store default sign so : TRUE
               
               "command": ""} #command key : empty for now
       
