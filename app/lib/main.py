@@ -1,8 +1,8 @@
 import mediapipe as mp
 import cv2
-import modules.detection as dt
-import styles.styles as styles
-import modules.actionselector as a_s
+import lib.modules.detection as dt
+import lib.styles.styles as styles
+import lib.modules.actionselector as a_s
 
 mp_drawing = mp.solutions.drawing_utils
 #mp_drawing_styles = mp.solutions.drawing_styles
