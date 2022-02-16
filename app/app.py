@@ -32,7 +32,11 @@ def config():
 
         #jt.save_config("", "", "")
         jt.save_config(dictStringCommand, dictStringFigure, dictStringAffectation)
-    return render_template('config.html')
+        return render_template('config.html')
+    else:
+        init()
+        datas = extract_head()
+        return render_template('config.html',datas=datas)
 
 @app.route('/video_feed')
 def video_feed():

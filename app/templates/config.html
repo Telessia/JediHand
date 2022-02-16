@@ -35,21 +35,12 @@
       <h1>Jedi Hand</h1>
       <div class="swiper mySwiper">
         <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <img src="static/images/OneHand_OneFinger.png" />
-          </div>
-          <div class="swiper-slide">
-            <img src="static/images/OneHand_TwoFingers.png" />
-          </div>
-          <div class="swiper-slide">
-            <img src="static/images/OneHand_ThreeFingers.png" />
-          </div>
-          <div class="swiper-slide">
-            <img src="static/images/OneHand_FourFingers.png" />
-          </div>
-          <div class="swiper-slide">
-            <img src="static/images/OneHand_FiveFingers.png" />
-          </div>
+            {% for x in datas %}
+            <div class="swiper-slide">
+              <li>{{ x.groupname }}</li>
+              <img src= "{{ x.picpath }}" alt="Can't load picture" style="width:300px;height:300px;">
+            </div>
+            {% endfor %}
         </div>
         <div class="swiper-pagination"></div>
       </div>
