@@ -10,6 +10,22 @@
                         margin-right: auto;
                     }
                   </style>
-                <img class="img-container" src="{{ url_for('video_feed') }}" width="60%">
+                <img class="img-container" id="flow" src="{{ url_for('video_feed') }}" width="60%">
     </div>
+    <form>
+    <a href="{{ url_for('capture') }}"> Capture </a>>
+    </form>
     </body>
+
+    <img class="img-container" id="shot" src="" width="60%">
+
+    <script>/*
+        function sss(){
+            console.log("We got in");
+        const element = document.getElementById("flow");
+        var element2 = document.getElementById("shot");
+        const image = element.getAttribute('src');
+        console.log(image)
+        element2.setAttribute('src',"{{url_for('capture')}}");
+        }*/
+    </script>

@@ -9,12 +9,10 @@
     />
     <!-- Déclaration de la variable globale afin d'affecter une commande à une figure-->
     <script> 
-      var affectedCommands = [];
-      var possibleCommands = [];
-      var possibleFigures = [];
+      var affectedCommands = [];//Contain currently affected commands
+      var possibleCommands = [];//Contain possible commands (From a Json Config files)
+      var IdsArray = [];//Contain DB Ids of the current displayed elements
     </script>
-    <script src='static/js/source.js' async></script>
-    <script src='static/js/config.json' async></script>
 
     <!-- Link Swiper's CSS -->
     <link
@@ -34,10 +32,10 @@
     <section>
       <h1>Jedi Hand</h1>
       <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
+        <div class="swiper-wrapper" id='wrapper'>
             {% for x in datas %}
-            <div class="swiper-slide">
-              <li>{{ x.groupname }}</li>
+            <div class="swiper-slide" id="{{ x.id }}" data="{{ x.command }}">
+              <li id ="groupanme{{ x.groupname }}">{{x.groupname}}</li>
               <img src= "{{ x.picpath }}" alt="Can't load picture" style="width:300px;height:300px;">
             </div>
             {% endfor %}
@@ -49,14 +47,12 @@
     <form method="post">
       <div class="inputInvisible">
         <input type="text" name="possibleCommands" class="possibleCommandsInput">
-        <input type="text" name="possibleFigures" class="possibleFiguresInput"> 
+        <input type="text" name="IdsArray" class="IdsArrayInput"> 
         <input type="text" name="affectedCommands" class="affectedCommandsInput"> 
       </div>
 
       <a class="star" href="{{ url_for('streaming') }}">Camera streaming</a>
-      
-      <button type="submit" class="saveConfig">Sauvegarder</button>
-
+    
     </form>
 
     <div class="displayCommand"></div>
@@ -67,9 +63,12 @@
       </div>
     </div>
     
+    <button type="submit" class="saveConfig">Sauvegarder</button>
+
 
     <!-- Swiper JS  -->
-    
+    <script src='static/js/source.js' async></script>
+    <script src='static/js/config.json' async></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     
     
@@ -77,21 +76,15 @@
     <!-- Initialize Swiper -->
     <script>
 
-      //alert(JSON.stringify(possibleFigures))
-      //alert(JSON.stringify(affectedCommands))
-      //alert(JSON.stringify(possibleCommands))
-
       let saveConfigButton = document.querySelector('.saveConfig');
       saveConfigButton.onclick = function() {
-        //alert(affectedCommands);
-
         let inputPossibleCommand = document.querySelector('.possibleCommandsInput');
         inputPossibleCommand.value = JSON.stringify(possibleCommands);
 
         let inputAffectation = document.querySelector('.affectedCommandsInput');
         inputAffectation.value = JSON.stringify(affectedCommands);
 
-        let inputPossibleFigure = document.querySelector('.possibleFiguresInput');
+        let inputPossibleFigure = document.querySelector('.IdsArrayInput');
         inputPossibleFigure.value = JSON.stringify(possibleFigures);
       }   
 
@@ -100,7 +93,7 @@
       let textBox = document.querySelector('.textBox');
       let display = document.querySelector('.displayCommand');
       if (affectedCommands[currentIndex] != undefined){
-        display.innerHTML = affectedCommands[currentIndex].command;
+        display.innerHTML = affectedCommands[currentIndex];
       }
       else {
         display.innerHTML = "None affected";
@@ -121,42 +114,26 @@
         },
         pagination: {
           el: ".swiper-pagination",
-        },
+        }, //When swipe
         on: {
           slideChange: function () {
             const index_currentSlide = swiper.activeIndex;
             textBox.value = "";
             currentIndex = index_currentSlide;
             
-            console.log(affectedCommands[index_currentSlide].command);
-            display.innerHTML = affectedCommands[currentIndex].command;
+            console.log(affectedCommands[index_currentSlide]);
+            display.innerHTML = affectedCommands[currentIndex];
           },
         },
       });
 
-      //alert(JSON.stringify(affectedCommands));
-
-      
-      
-      /*saveConfigButton.addEventListener('click', async _ => {
-      try {     
-        const response = await fetch('/config', {
-          method: 'post',
-          body: {
-            affectedCommands
-          }
-        });
-          console.log('Completed!', response);
-        } catch(err) {
-          console.error(`Error: ${err}`);
-        }
-       });*/
-
+      //Open Dropdown
       let dropdown = document.querySelector('.dropdown');
       dropdown.onclick = function() {
         dropdown.classList.toggle('active');
       }
       
     </script>
+
   </body>
 </html>

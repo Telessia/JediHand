@@ -7,19 +7,17 @@ fetch("./static/js/config.json")
 })
 .then(jsondata => {
     possibleCommands = jsondata.possibleCommands;
-    possibleFigures = jsondata.possibleFigure;
     //On ajoute la liste des commandes possibles dans le choix du menu dropdown
     fill_tableau(possibleCommands);
 
     //On assigne les commandes déjà assignés
-    let affectedCommandsFigure = jsondata.affectedCommandsFigure;
-    for(var item in affectedCommandsFigure) {
-        affectedCommands.push(affectedCommandsFigure[item]);
+    const myElement = document.getElementById('wrapper');
+    for (let i = 0; i < myElement.children.length; i++) {
+        affectedCommands.push(myElement.children[i].getAttribute('data'));
+        IdsArray.push(myElement.children[i].getAttribute('id'));
+        console.log(myElement.children[i].getAttribute('data'));
     }
 });
-
-console.log(affectedCommands);
-
 
 function fill_tableau (_possible_commands){
     for(let i in _possible_commands) {
@@ -29,7 +27,7 @@ function fill_tableau (_possible_commands){
     
         newLine.onclick = function () {
             document.querySelector('.textBox').value = this.innerHTML;
-            affectedCommands[currentIndex].command = this.innerHTML;
+            affectedCommands[currentIndex] = this.innerHTML;
             console.log(affectedCommands[currentIndex]);
         }
     

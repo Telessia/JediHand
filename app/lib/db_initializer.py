@@ -1,8 +1,10 @@
 import ast
+import shutil
 from pymongo import MongoClient
 import mediapipe as mp
 import cv2
 import os
+import datetime
 
 path = 'app/static/default_datas/train/' #Path of the images to load
 
@@ -67,7 +69,8 @@ def init():
       models.insert_one(hand_to_post).inserted_id #insert the current hand datas in the DB under "models"
       
   return True  
-      
+     
+""" 
 def extract_head(): #Function that get the header of our base signs
   letters = ['A',"B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
   extracted = []
@@ -80,5 +83,35 @@ def extract_head(): #Function that get the header of our base signs
     groupname_head.rewind() #empty the result cursor for the next query 
     #print("Affiche un truc bordel : ",extracted,"\n")
   return extracted
+"""
+
+def extract_head(): #Function that get the header of our base signs
+  letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+  extracted = []
+  models = db.models
+  for x in letters: #We will loop over all the base groupnames
+    result = models.find_one({"groupname": x })
+    #print(result['_id'])
+    extracted.append(result)
+  return extracted
+
+def save_datas(groupname,original_path,skeleton):
+  new_path = "static/user_datas/"+groupname+str(datetime.date.today().fromtimestamp)+".jpg"
+  shutil.move("app/"+original_path,"app/"+new_path)
+  hand_to_post = {
+          
+              "groupname": groupname , #groupname to identify to which sign the picture/skeleton belongs
+
+              "picpath": new_path, #path to the picture of the sign
+
+              "skeleton": skeleton, #skeleton of the sign (list of lists of floats)
+
+              "default": False, #tell if the sign canno't be deleted or not
+              
+              "command": ""} #command key : empty for now
+      
+  models = db.models #load the cursor on our "table"
+  models.insert_one(hand_to_post).inserted_id #insert the current hand datas in the DB under "models"  
+  return True
     
     
