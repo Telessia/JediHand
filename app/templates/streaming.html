@@ -9,22 +9,25 @@
        
     <div class="container">
             <div class="h2star">Live Streaming</div>
-            <form method="get" id="captureform" action="url_for{{ 'capture' }}">
+
+            <form method="get" class="star" id="captureform" action="{{ url_for('capture') }}">
                 <input type="submit" value="Take a picture">
             </form>
+
             <div id="loader-cont" style="display: none; color:white">
             Please do not move
             </br>
             {% include 'loader.html' %}
             </div>
+
             <script>
             const form = document.getElementById('captureform');
             const spinner = document.getElementById('loader-cont');
 form.addEventListener('submit', (e) => {
     console.log("Fais un truc stp");
-  e.preventDefault();
   spinner.style.display ="block";
 });
+
 </script>
                 <style>
                     .img-container {

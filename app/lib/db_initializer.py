@@ -1,10 +1,11 @@
 import ast
 import shutil
+from tokenize import group
 from pymongo import MongoClient
 import mediapipe as mp
 import cv2
 import os
-import datetime
+from datetime import datetime
 
 path = 'app/static/default_datas/train/' #Path of the images to load
 
@@ -86,18 +87,24 @@ def extract_head(): #Function that get the header of our base signs
 """
 
 def extract_head(): #Function that get the header of our base signs
-  letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
   extracted = []
   models = db.models
-  for x in letters: #We will loop over all the base groupnames
+  groupbase = models.distinct("groupname")
+  print(groupbase)
+  for x in groupbase: #We will loop over all the base groupnames
     result = models.find_one({"groupname": x })
     #print(result['_id'])
     extracted.append(result)
   return extracted
 
 def save_datas(groupname,original_path,skeleton):
-  new_path = "static/user_datas/"+groupname+str(datetime.date.today().fromtimestamp)+".jpg"
-  shutil.move("app/"+original_path,"app/"+new_path)
+  try:
+    now = datetime.now()
+    dt_string = now.strftime("%d-%m-%Y-%H-%M-%S")
+    new_path = "static/user_datas/"+groupname+dt_string+".jpg"
+    shutil.move("app/"+original_path,"app/"+new_path)
+  except FileNotFoundError:
+    return False
   hand_to_post = {
           
               "groupname": groupname , #groupname to identify to which sign the picture/skeleton belongs
