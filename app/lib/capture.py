@@ -87,6 +87,7 @@ def shot():
               #mp_drawing_styles.get_default_hand_connections_style())
               styles.get_default_hand_connections_style())
       # Flip the image horizontally for a selfie-view display.
+      no_flip_with_marks = image
       image = cv2.flip(image, 1)
       # Cropping an image
       ret, buffer = cv2.imencode('.jpg', image)
@@ -96,11 +97,11 @@ def shot():
       path = "app/static/tmp/lastest_with_marks.jpg"
       if results.multi_hand_landmarks:
         cv2.imwrite(path_original,original_image)
-        cv2.imwrite(path,image)
+        cv2.imwrite(path,no_flip_with_marks)
         return path_original,path,results.multi_hand_landmarks[0].landmark
       else:
         cv2.imwrite(path_original,original_image)
-        cv2.imwrite(path,image)
+        cv2.imwrite(path,no_flip_with_marks)
         return path_original,path,None
 
 

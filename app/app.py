@@ -46,7 +46,8 @@ def capture():
     original_path,path,skeleton = shot()
     path = path.split("app/")[1]
     original_path = original_path.split("app/")[1]
-    skeleton = copyOfTabSkeletons(skeleton)
+    if(skeleton is not None):
+        skeleton = copyOfTabSkeletons(skeleton)
     session["original_path"]= original_path
     session["skeleton"] = skeleton
     return render_template('addsign.html',original_path=original_path,path=path,skeleton_data=skeleton)
@@ -66,11 +67,14 @@ def list():
 @app.route('/save_sign',methods=['GET','POST'])
 def save_sign():
     if request.method == 'POST':
+        print("We got in \n")
         groupname = request.form.get("groupname")
         original_path = session.get("original_path")
         skeleton = session.get("skeleton")
         saved = save_datas(groupname,original_path,skeleton)
-        return render_template('streaming.html',saved=saved)
+        return render_template('streaming.html')
+    else :
+        return render_template('addsign.html')
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8000) #port > 5000 under linux to avoid sudo

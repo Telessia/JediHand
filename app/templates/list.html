@@ -9,7 +9,7 @@
 
 
 <body>
-
+  {% include 'navbar.html' %}
   {% for x in datas %}
   <a>
     <li>{{ x.groupname }}</li>
@@ -28,7 +28,8 @@
   a {
   border: 1px black solid;
   display: inline-block;
-  margin-right: 100px;
+  margin-left: 20px;
+  margin-right: 80px;
   }
 </style>
 

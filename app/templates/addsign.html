@@ -15,19 +15,21 @@
             </div>
   {% endif %}
           </br>
-          <div style="color: white;">
   {% if skeleton_data %}
-  Skeleton : {{ skeleton_data }}
+  <div><h3 class="star">Skeleton : </h3><p style="color:greenyellow;">A skeleton has been succesfully generated</p></div>
 
+  <form method="post" name="saveform" action="{{ url_for('save_sign') }}"></form>
+   Enter groupname : <input type="text" name="groupname"/>
+  <input type="submit" value="Save in DB">
+  </form>
+
+  {% else %}
+    <h3 class="star">Skeleton : </h3> <p style="color:red;">No skeleton has been generated</p>
   {% endif %}
 </br>
-</div>
 
 
-<form method="post" name="saveform" action="{{ url_for('save_sign') }}"></form>
-  Enter groupname : <input type="text" name="groupname"/>
-  <input type="submit" value="Save in DB">
-</form>
+<a href="{{url_for('streaming')}}" > Discard and go back to camera </a>
 
 </body>
 </html>
