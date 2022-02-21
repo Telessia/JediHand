@@ -93,7 +93,7 @@ body {
     border-radius: 5px;
     height: 30px;
     background-color: #ffd54e;
-   background-clip: text;
+    background-clip: text;
 }
 
 .displayCommand {

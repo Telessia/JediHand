@@ -1,0 +1,33 @@
+body {
+    overflow-x: hidden;
+}
+
+.block-images {
+    position: block;
+    margin: auto;
+    width: 80%;
+}
+
+.image-display {
+    flex-direction: column;
+    display: inline-block;
+    margin-right: 35px;
+    margin-bottom: 50px;
+}
+
+.label-display {
+    background-color: #ffd54e;
+    background-clip: text;
+    width: fit-content;
+    border-radius: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    text-align: center;
+    font: italic 1.4em "Fira Sans", serif;
+    font-weight: bold;
+    color: black;
+    padding-left: 15px;
+    padding-right: 15px;
+    box-shadow: 3px 3px rgb(17, 17, 17);
+}
