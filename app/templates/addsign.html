@@ -1,18 +1,18 @@
-<!DOCTYPE html>
-<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
+<html>
+<head>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" type="text/css" href="static/styles/style.css">
 </head>
+
 <body>
+  {% include 'navbar.html' %}
+  <div class="block-text">
   {% if original_path %}
   <img src="{{ original_path }}" alt="Can't load picture" width="30%" style="margin-left: 10%; margin-right: 10%;">
-</div>
+
 {% endif %}
   {% if path %}
               <img src="{{ path }}" alt="Can't load picture"width="30%">
-            </div>
   {% endif %}
           </br>
   {% if skeleton_data %}
@@ -30,7 +30,8 @@
 
 
 <a href="{{url_for('streaming')}}" > Discard and go back to camera </a>
-
+</div>
 </body>
+
 </html>
 

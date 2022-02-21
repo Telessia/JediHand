@@ -41,22 +41,19 @@ def config():
 def video_feed():
     return Response(stream(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route('/capture')
+@app.route('/capture',methods=['GET'])
 def capture():
-    original_path,path,skeleton = shot()
-    path = path.split("app/")[1]
-    original_path = original_path.split("app/")[1]
-    if(skeleton is not None):
-        skeleton = copyOfTabSkeletons(skeleton)
-    session["original_path"]= original_path
-    session["skeleton"] = skeleton
-    return render_template('addsign.html',original_path=original_path,path=path,skeleton_data=skeleton)
-    #return Response(image)
-
-@app.route('/loading')
-def loading():
-    return render_template('loading.html')
-
+    if request.method == 'GET':
+        original_path,path,skeleton = shot()
+        path = path.split("app/")[1]
+        original_path = original_path.split("app/")[1]
+        if(skeleton is not None):
+            skeleton = copyOfTabSkeletons(skeleton)
+        session["original_path"]= original_path
+        session["skeleton"] = skeleton
+        return render_template('addsign.html',original_path=original_path,path=path,skeleton_data=skeleton)
+        #return Response(image)
+        
 @app.route('/list')
 def list():
     init()
