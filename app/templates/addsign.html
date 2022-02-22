@@ -1,35 +1,43 @@
 <html>
 <head>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="stylesheet" type="text/css" href="static/styles/style.css">
+    <link rel="stylesheet" type="text/css" href="static/styles/style3.css">
 </head>
 
 <body>
   {% include 'navbar.html' %}
   <div class="block-text">
-  {% if original_path %}
-  <img src="{{ original_path }}" alt="Can't load picture" width="30%" style="margin-left: 10%; margin-right: 10%;">
+    <h1>Add a sign</h1>
+    {% if original_path %}
+      <img src="{{ original_path }}" alt="Can't load picture" width="30%" style="margin-left: 15%; margin-right: 10%;">
+    {% endif %}
 
-{% endif %}
-  {% if path %}
-              <img src="{{ path }}" alt="Can't load picture"width="30%">
-  {% endif %}
-          </br>
-  {% if skeleton_data %}
-  <div><h3 style="color: white;">Skeleton : </h3><p style="color:greenyellow;">A skeleton has been succesfully generated</p></div>
+    {% if path %}
+      <img src="{{ path }}" alt="Can't load picture"width="30%">
+    {% endif %}
 
-  <form method="post" action="{{ url_for('save_sign') }}">
-   Enter groupname : <input type="text" name="groupname" required/>
-  <input type="submit" value="Save in DB">
-  </form>
+    <div class="block-form">
+      {% if skeleton_data %}
+      <div>
+        <!--<h3 style="color: white;">Skeleton : </h3>-->
+        <p style="color:greenyellow;">A skeleton has been succesfully generated</p>
+      </div>
+      
+      <p>Enter the sign name :</p>
+      <form method="post" action="{{ url_for('save_sign') }}">
+        <input type="text" name="groupname" required class="textBox" onblur="this.value=''"/>
+        <input type="submit" value="Save in DB" class="saveSign">
+      </form>
 
-  {% else %}
-    <h3 class="star">Skeleton : </h3> <p style="color:red;">No skeleton has been generated</p>
-  {% endif %}
-</br>
+      {% else %}
+        <!--<h3 style="color: white;">Skeleton : </h3>-->
+        <p style="color: #FE6240;">No skeleton has been generated :c</p>
+      {% endif %}
 
-<a href="{{url_for('streaming')}}" > Discard and go back to camera </a>
-</div>
+      <a href="{{url_for('streaming')}}" class="saveConfig">Discard and go back to camera </a>
+    </div>
+    
+  </div>
 </body>
 
 </html>
