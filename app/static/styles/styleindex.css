@@ -18,7 +18,7 @@
     position: relative;
     background-color: #222;
     /*margin-left: 90px;*/
-    margin-left: 82px;
+    margin-left: 90px;
     /*width: 100%;*/
     /*height: 100vh;*/
 }
@@ -77,8 +77,6 @@ h1 {
     to { top: -8330px; transform: translateZ(-2500px) rotateX(19.2deg)}
 
 }
-
-
 
 /* New Stacking Context with Fixed */
 .side-nav {

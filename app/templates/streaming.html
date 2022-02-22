@@ -1,17 +1,19 @@
 <html>
 <head>
 <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-<link rel="stylesheet" type="text/css" href="static/styles/style.css">
+<link rel="stylesheet" type="text/css" href="static/styles/styleconfig.css">
 </head>
 <body>
     {% include 'navbar.html' %}
     <div class="block-text">
        
     <div class="container">
-            <div class="h2star">Live Streaming</div>
+            <!--<div class="h2star">Live Streaming</div>-->
+            <h1>Live Streaming</h1>
 
             <form method="get" class="star" id="captureform" action="{{ url_for('capture') }}">
-                <input type="submit" value="Take a picture">
+                <input type="submit" class="saveConfig" value="Take a picture">
+                
             </form>
 
             <div id="loader-cont" style="display: none; color:white">

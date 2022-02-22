@@ -65,7 +65,9 @@ def shot():
       min_detection_confidence=0.7,
       min_tracking_confidence=0.7) as hands:
       success, image = cap.read()
+      cap.release()
       original_image = image
+      
 
       # To improve performance, optionally mark the image as not writeable to
       # pass by reference.

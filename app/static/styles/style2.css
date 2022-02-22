@@ -1,5 +1,5 @@
 body {
-    overflow-x: hidden;
+    margin: 0px;
 }
 
 .block-images {
@@ -11,7 +11,8 @@ body {
 .image-display {
     flex-direction: column;
     display: inline-block;
-    margin-right: 35px;
+    margin-left: 20px;
+    margin-right: 20px;
     margin-bottom: 50px;
 }
 
