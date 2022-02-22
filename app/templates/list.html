@@ -1,0 +1,25 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" type="text/css" href="static/styles/styles.css">
+    <title>Project JediHand List</title>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+    <div class="block-text">
+        <h1>List of signs</h1>
+        <div class="block-images">
+            {% for x in datas %}
+            <div class="image-display">
+                <p class="label-display">{{ x.groupname }}</p>
+                <img src= "{{ x.picpath }}" alt="Can't load picture" style="width:175px;height:175px;box-shadow: 5px 5px rgb(214, 214, 214);">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>

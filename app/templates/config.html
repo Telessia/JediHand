@@ -1,0 +1,116 @@
+<html>
+<head>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <!-- Déclaration de la variable globale afin d'affecter une commande à une figure-->
+    <script> 
+        var affectedCommands = [];//Contain currently affected commands
+        var possibleCommands = [];//Contain possible commands (From a Json Config files)
+        var IdsArray = [];//Contain DB Ids of the current displayed elements
+    </script>
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+    <link rel="stylesheet" type="text/css" href="static/styles/styleconfig.css">
+    <title>Project JediHand Configuration</title>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+      
+    <div class="block-text">
+        <section>
+            <h1>Configuration</h1>
+            <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                {% for x in datas %}
+                <div class="swiper-slide" id="{{ x.id }}" data="{{ x.command }}">
+                    <!--<li id ="groupanme{{ x.groupname }}">{{x.groupname}}</li>-->
+                    <img src= "{{ x.picpath }}" alt="Can't load picture" style="width:300px;height:300px;">
+                </div>
+                {% endfor %}
+            </div>
+            <div class="swiper-pagination"></div>
+        </section>
+  
+        <div class="displayCommand"></div>
+        <button type="submit" class="saveConfig">Save</button>
+        
+        <div class="dropdown-class">
+            <div class="dropdown">
+                <input type="text" class="textBox" placeholder="Select a command" readonly>
+                <div class="option"></div>
+            </div>
+        </div>
+    </div>
+  
+    <form method="post">
+        <div class="inputInvisible">
+            <input type="text" name="possibleCommands" class="possibleCommandsInput">
+            <input type="text" name="IdsArray" class="IdsArrayInput"> 
+            <input type="text" name="affectedCommands" class="affectedCommandsInput"> 
+        </div>
+    </form>
+      
+  
+    <!-- Swiper JS -->
+    <script src='static/js/source.js' async></script>
+    <script src='static/js/config.json' async></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  
+    <!-- Initialize Swiper -->
+    <script>
+  
+        let saveConfigButton = document.querySelector('.saveConfig');
+        saveConfigButton.onclick = function() {
+            let inputPossibleCommand = document.querySelector('.possibleCommandsInput');
+            inputPossibleCommand.value = JSON.stringify(possibleCommands);
+    
+            let inputAffectation = document.querySelector('.affectedCommandsInput');
+            inputAffectation.value = JSON.stringify(affectedCommands);
+    
+            let inputPossibleFigure = document.querySelector('.IdsArrayInput');
+            inputPossibleFigure.value = JSON.stringify(possibleFigures);
+        }   
+  
+        var currentIndex = 0;
+    
+        let textBox = document.querySelector('.textBox');
+        let display = document.querySelector('.displayCommand');
+        if (affectedCommands[currentIndex] != undefined){
+            display.innerHTML = affectedCommands[currentIndex];
+        }
+        else {
+            display.innerHTML = "undefined";
+        }
+    
+        var swiper = new Swiper(".mySwiper", {
+            effect: "cube",
+            grabCursor: true,
+            cubeEffect: {
+            shadow: true,
+            slideShadows: true,
+            shadowOffset: 20,
+            shadowScale: 0.94,
+            },
+            pagination: {
+            el: ".swiper-pagination",
+            },
+            on: {
+            slideChange: function () {
+                const index_currentSlide = swiper.activeIndex;
+                textBox.value = "";
+                currentIndex = index_currentSlide;
+                
+                console.log(affectedCommands[index_currentSlide]);
+                display.innerHTML = affectedCommands[currentIndex];
+            },
+            },
+        });
+    
+        //Open Dropdown
+        let dropdown = document.querySelector('.dropdown');
+        dropdown.onclick = function() {
+            dropdown.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
