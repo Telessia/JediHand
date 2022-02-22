@@ -18,17 +18,20 @@
       
     <div class="block-text">
         <section>
+          <form method="post" action="{{ url_for('save_commands') }}">
             <h1>Configuration</h1>
             <div class="swiper mySwiper">
-            <div class="swiper-wrapper">
+            <div class="swiper-wrapper" id="wrapper">    
                 {% for x in datas %}
-                <div class="swiper-slide" id="{{ x.id }}" data="{{ x.command }}">
+                <div class="swiper-slide" id="{{ x.id }}" command="{{ x.command }}">
                     <!--<li id ="groupanme{{ x.groupname }}">{{x.groupname}}</li>-->
                     <img src= "{{ x.picpath }}" alt="Can't load picture" style="width:300px;height:300px;">
                 </div>
                 {% endfor %}
             </div>
             <div class="swiper-pagination"></div>
+            <button type="submit">Save</button>
+          </form>
         </section>
   
         <div class="displayCommand"></div>
@@ -75,8 +78,8 @@
     
         let textBox = document.querySelector('.textBox');
         let display = document.querySelector('.displayCommand');
-        if (affectedCommands[currentIndex] != undefined){
-            display.innerHTML = affectedCommands[currentIndex];
+        if (mySlides[currentIndex].getAttribute("command") != undefined || mySlides[currentIndex].getAttribute("command")!=""){
+            display.innerHTML = mySlides[currentIndex];
         }
         else {
             display.innerHTML = "undefined";
@@ -101,7 +104,7 @@
                 currentIndex = index_currentSlide;
                 
                 console.log(affectedCommands[index_currentSlide]);
-                display.innerHTML = affectedCommands[currentIndex];
+                display.innerHTML = mySlides[currentIndex].getAttribute("command");
             },
             },
         });

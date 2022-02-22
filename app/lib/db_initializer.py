@@ -70,21 +70,6 @@ def init():
       models.insert_one(hand_to_post).inserted_id #insert the current hand datas in the DB under "models"
       
   return True  
-     
-""" 
-def extract_head(): #Function that get the header of our base signs
-  letters = ['A',"B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-  extracted = []
-  models = db.models
-  datas = models.find() #retrieve a cursor on all the DB
-  for x in letters: #We will loop over all the base groupnames
-    strtemp = ('%s "%s"' %('this.groupname ==',x)) #the Query we will use on the DB (equivalent to SQL -> WHERE "Conditons")
-    groupname_head = datas.limit(1).where(strtemp) #we search for the first skeleton that belong to the current groupname
-    extracted.append(dict(list(groupname_head)[0]))
-    groupname_head.rewind() #empty the result cursor for the next query 
-    #print("Affiche un truc bordel : ",extracted,"\n")
-  return extracted
-"""
 
 def extract_head(): #Function that get the header of our base signs
   extracted = []

@@ -72,6 +72,16 @@ def save_sign():
         return render_template('streaming.html')
     else :
         return render_template('addsign.html')
+    
+@app.route('/save_commands',methods=['GET','POST'])
+def save_commands():
+    if request.method == 'POST':
+        print("We got in \n")
+        #list = request.
+        #print(list)
+        return redirect("/")
+    else :
+        return redirect("/")
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8000) #port > 5000 under linux to avoid sudo

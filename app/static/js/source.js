@@ -1,5 +1,6 @@
 
 let dropdownMenu = document.getElementsByClassName('option')[0];
+var mySlides = document.getElementById('wrapper').children;
 
 fetch("./static/js/config.json")
 .then(response => {
@@ -11,11 +12,10 @@ fetch("./static/js/config.json")
     fill_tableau(possibleCommands);
 
     //On assigne les commandes déjà assignés
-    const myElement = document.getElementById('wrapper');
-    for (let i = 0; i < myElement.children.length; i++) {
-        affectedCommands.push(myElement.children[i].getAttribute('data'));
-        IdsArray.push(myElement.children[i].getAttribute('id'));
-        console.log(myElement.children[i].getAttribute('data'));
+    for (let i = 0; i < mySlides.length; i++) {
+        affectedCommands.push(mySlides[i].getAttribute('command'));
+        IdsArray.push(mySlides[i].getAttribute('id'));
+        console.log(mySlides[i].getAttribute('command'));
     }
 });
 
@@ -27,8 +27,8 @@ function fill_tableau (_possible_commands){
     
         newLine.onclick = function () {
             document.querySelector('.textBox').value = this.innerHTML;
-            affectedCommands[currentIndex] = this.innerHTML;
-            console.log(affectedCommands[currentIndex]);
+            mySlides[currentIndex].setAttribute("command",this.innerHTML);
+            console.log(mySlides[currentIndex].getAttribute("command"));
         }
     
         dropdownMenu.insertAdjacentElement('beforeend', newLine);
