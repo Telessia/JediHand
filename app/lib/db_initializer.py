@@ -82,7 +82,7 @@ def extract_head(): #Function that get the header of our base signs
     extracted.append(result)
   return extracted
 
-def save_datas(groupname,original_path,skeleton):
+def insert_sign(groupname,original_path,skeleton):
   try:
     now = datetime.now()
     dt_string = now.strftime("%d-%m-%Y-%H-%M-%S")
@@ -106,4 +106,13 @@ def save_datas(groupname,original_path,skeleton):
   models.insert_one(hand_to_post).inserted_id #insert the current hand datas in the DB under "models"  
   return True
     
+    
+def update_commands(listIds, listCommands):
+  models = db.models
+  for idx,x in enumerate(listIds):
+    print(x)
+    print(listCommands[idx])
+    models.update_one({ '_id' : x }, {"$set": { 'command' : str(listCommands[idx]) }}, upsert = False)
+    print("updated")
+  return
     

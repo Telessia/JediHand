@@ -10,6 +10,7 @@
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
     <link rel="stylesheet" type="text/css" href="static/styles/styleconfig.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <title>Project JediHand Configuration</title>
 </head>
 
@@ -18,12 +19,12 @@
       
     <div class="block-text">
         <section>
-          <form method="post" action="{{ url_for('save_commands') }}">
+          <form method="post" action="{{ url_for('save_commands') }}" name="command_form">
             <h1>Configuration</h1>
-            <div class="swiper mySwiper">
-            <div class="swiper-wrapper" id="wrapper">    
+            <div class="swiper mySwiper" name="swiperr">
+            <div class="swiper-wrapper" id="wrapper" name="wrapperr">    
                 {% for x in datas %}
-                <div class="swiper-slide" id="{{ x.id }}" command="{{ x.command }}">
+                <div class="swiper-slide" id="{{ x._id }}" command="{{ x.command }}" name="slide">
                     <!--<li id ="groupanme{{ x.groupname }}">{{x.groupname}}</li>-->
                     <img src= "{{ x.picpath }}" alt="Can't load picture" style="width:300px;height:300px;">
                 </div>
@@ -64,14 +65,23 @@
   
         let saveConfigButton = document.querySelector('.saveConfig');
         saveConfigButton.onclick = function() {
-            let inputPossibleCommand = document.querySelector('.possibleCommandsInput');
-            inputPossibleCommand.value = JSON.stringify(possibleCommands);
-    
+      
             let inputAffectation = document.querySelector('.affectedCommandsInput');
             inputAffectation.value = JSON.stringify(affectedCommands);
     
-            let inputPossibleFigure = document.querySelector('.IdsArrayInput');
-            inputPossibleFigure.value = JSON.stringify(possibleFigures);
+            let inputIdsArray = document.querySelector('.IdsArrayInput');
+            inputIdsArray.value = JSON.stringify(IdsArray);
+
+            console.log("Try to save")
+            console.log(inputAffectation)
+            console.log(inputIdsArray)
+
+            $.ajax({ 
+                url: "{{url_for('save_commands')}}", 
+                type: 'POST', 
+                data: {'commands' : inputAffectation.value, 'ids': inputIdsArray.value},
+                traditional: true,
+})
         }   
   
         var currentIndex = 0;
