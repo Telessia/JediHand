@@ -63,7 +63,7 @@ h1 {
     font-weight: bold;
     text-align: justify;
     position: relative;
-    animation: scroll 60s linear infinite;
+    animation: scroll 90s linear infinite;
 }
 
 .scroll-text h1, .scroll-text h2 {

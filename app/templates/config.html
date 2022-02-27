@@ -19,7 +19,6 @@
       
     <div class="block-text">
         <section>
-          <form method="post" action="{{ url_for('save_commands') }}" name="command_form">
             <h1>Configuration</h1>
             <div class="swiper mySwiper" name="swiperr">
             <div class="swiper-wrapper" id="wrapper" name="wrapperr">    
@@ -31,8 +30,6 @@
                 {% endfor %}
             </div>
             <div class="swiper-pagination"></div>
-            <button type="submit">Save</button>
-          </form>
         </section>
   
         <div class="displayCommand"></div>
