@@ -14,10 +14,21 @@ fetch("./static/js/config.json")
 
     //On assigne les commandes déjà assignés
     for (let i = 0; i < mySlides.length; i++) {
-        affectedCommands.push(mySlides[i].getAttribute('command'));
+       var str= mySlides[i].getAttribute('command') 
+        if((str.includes("launch_a_link"))||(str.includes("launch_a_program"))){
+            console.log("LAUNCH COMMAND ", str)
+            const words = str.split(" ");
+            affectedCommands.push(words[0]);
+            mySlides[i].setAttribute('command',words[0])
+            argsArray.push(words[1]);
+            IdsArray.push(mySlides[i].getAttribute('id'));
+            continue
+        }
+        console.log(mySlides[i].getAttribute('command'))
+        console.log(typeof(mySlides[i].getAttribute('command')))
+        affectedCommands.push(str);
         IdsArray.push(mySlides[i].getAttribute('id'));
         argsArray.push("");
-        console.log(mySlides[i].getAttribute('id'));
     }
 });
 
