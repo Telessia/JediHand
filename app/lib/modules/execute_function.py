@@ -1,4 +1,8 @@
 from function_test import *
+from function_sign_comparison import constructBaseImages
+from pymongo import MongoClient
+import os
+
 
 
 labels = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", 
@@ -17,8 +21,32 @@ labelsTest = ["A2", "A22", "B14", "B15", "B19", "C17", "C19", "C22", "C23", "D1"
   "X24", "Y5", "Y25", "Z9", "Z16", "Z18", "Z27"]
 
 
-functionTestPrecisionVersion1(0.68, 0.7, labels, dictionary_sign_fingers)
-functionTestVersion1Camera(0.7)
+path_app_v2 = 'app/static/default_datas/train/' #Path of the images to load
+
+files = os.listdir(path_app_v2)
+
+#Connection to running database
+client = MongoClient('localhost', 27017, username='root', password='root')
+db = client['jedihand_development'] #name of the database, see docker-compose
+
+models = db.models
+models_test = db.models_test
+
+labels_skeleton = extract_labels(models)
+print(len(labels_skeleton))
+
+dict_skel = {}
+dict_rev = {}
+dict_bent = {}
+dict_skel, dict_rev, dict_bent = constructBaseImages(models, labels_skeleton, 50)
+
+
+#functionTestPrecisionVersion2(0.68, models_test, dict_skel, dict_rev, dict_bent)
+functionTestVersion2Camera(0.7, dict_skel, dict_rev, dict_bent)
+
+
+#functionTestPrecisionVersion1(0.68, 0.7, labels, dictionary_sign_fingers)
+#functionTestVersion1Camera(0.7)
 
 """for i in range (19):
     print(0.05 + i*0.05)

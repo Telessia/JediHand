@@ -7,12 +7,24 @@ import numpy as np
 
 from detection import processImageVersion1
 from computefunction import copyOfTabSkeletons
-from definitivefunctionssign import getLabelClosestSkeleton
+from function_sign_comparison import getLabelClosestSkeleton
 
 mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 path_apprentissage = "app/lib/modules/image/apprentissage/"
+
+
+# Function that returns all distinct labels in the database
+def extract_labels(models): 
+    extracted_labels = []
+    datas = models.find()
+    for data in datas:
+        bool_exist = data['groupname'] in extracted_labels
+        if not bool_exist: # if not already in array
+            extracted_labels.append(data['groupname'])
+
+    return extracted_labels
 
 
 # Function to test the precision of the version 1
