@@ -144,7 +144,6 @@ def compareSkeletons(tab_dist_skeleton1, tab_dist_skeleton2):
 def getLabelClosestSkeleton(skeleton, dictionary_skeleton, dictionary_reverse, dictionary_bent_fingers):
 
     labels_skeleton = list(dictionary_skeleton.keys())
-    #print(labels_skeleton)
 
     distance_normal_skeleton = distanceMinkowski(skeleton[0], skeleton[17])
     tab_distance_skeleton = getTabDistanceAllFingers(skeleton)
@@ -172,10 +171,6 @@ def getLabelClosestSkeleton(skeleton, dictionary_skeleton, dictionary_reverse, d
                 if(bool_reverse[j] != dictionary_reverse[label][i][j]):
                     value_similar += 30
 
-            """#Si la direction de la main n'est pas la même alors c'est une pénalité
-            if (bool_reverse != dictionary_reverse[label][i]):
-                value_similar += 50"""
-
             #On ajoute une pénalité pour chaque doigt qui ne sont pas plié dans le même sens
             for j in range(len(dictionary_bent_fingers[label][i])):
                 if(bent_fingers[j] != dictionary_bent_fingers[label][i][j]):
@@ -192,38 +187,3 @@ def getLabelClosestSkeleton(skeleton, dictionary_skeleton, dictionary_reverse, d
     return labels_skeleton[np.argmin(value_similarity)]
 
 
-def functionTestPrecisionVersion2(minDetectionConfidence, models_test, dictionary_skeleton, 
-    dictionary_reverse, dictionary_bent_fingers):
-
-    sommeGoodPredictions = 0.0 #Compteur de bonne réponse
-    totalPredictions = 0 #Total de réponses prédites, des fois il n'y a pas de skeleton avec mediapipe
-
-    with mp_hands.Hands(
-        static_image_mode=True, max_num_hands=1, min_detection_confidence=minDetectionConfidence, 
-        min_tracking_confidence=0.6) as hands:
-
-
-        datas = models_test.find()
-        for data in datas:
-            
-            #Récupération de l'image
-            image = cv2.imread("app/" + data['picpath'])
-            #Récupération du skeleton de l'image
-            results = hands.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
-
-            if results.multi_hand_landmarks:
-
-                #Récupération du tableau de points du skeleton
-                skeleton = copyOfTabSkeletons(results.multi_hand_landmarks[0].landmark)
-                skeleton = np.multiply(skeleton, 100)
-
-                predicted_label = getLabelClosestSkeleton(skeleton, dictionary_skeleton, dictionary_reverse, dictionary_bent_fingers)
-
-                if(predicted_label == data['groupname']):
-                    sommeGoodPredictions += 1
-                
-                totalPredictions += 1
-                #print(predicted_label, " vs ", data['groupname'])
-
-    print("Good Predictions : ", sommeGoodPredictions, "  Total Predictions : ", totalPredictions)
-    print("Precision de l'algorithme : ", (sommeGoodPredictions / totalPredictions) * 100, "%")

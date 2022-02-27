@@ -4,50 +4,20 @@ import os
 import numpy as np
 
 from definitivefunctionssign import *
+from function_test import *
 
 
-path = 'app/static/default_datas/train/' #Path of the images to load
+path_app_v2 = 'app/static/default_datas/train/' #Path of the images to load
 
-files = os.listdir(path)
-
-print("Debut !")
+files = os.listdir(path_app_v2)
 
 #Connection to running database
 client = MongoClient('localhost', 27017, username='root', password='root')
 db = client['jedihand_development'] #name of the database, see docker-compose
 
-print("Test ?")
 
-
-
-#labels_skeleton = ["C", "D"]
-labels_skeleton = ['A',"B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-
-def extract_skeletons(labels, number_image): #Function that get the header of our base signs
-  #letters = ['A',"B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-  
-  dictionary_skeletons = {}
-  value_to_get = len(labels) * number_image
-  print("Value : ", value_to_get)
-
-  for image_name in labels: # create the dictionary
-    dictionary_skeletons[image_name] = []
-
-  models = db.models
-  datas = models.find() #retrieve a cursor on all the DB
-  for data in datas:
-    
-    if(value_to_get == 0): break
-
-    #print(data['groupname'])
-    if(len(dictionary_skeletons[data['groupname']]) < number_image):
-      value_to_get -= 1
-      tabTempo = np.multiply(data['skeleton'], 100)
-      dictionary_skeletons[data['groupname']].append(tabTempo)
-
-
-  return dictionary_skeletons
-
+labels_skeleton = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
+  "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 
 models = db.models
 models_test = db.models_test
@@ -55,28 +25,12 @@ models_test = db.models_test
 dict_skel = {}
 dict_rev = {}
 dict_bent = {}
-dict_skel, dict_rev, dict_bent = constructBaseImages(models, labels_skeleton, 30)
+dict_skel, dict_rev, dict_bent = constructBaseImages(models, labels_skeleton, 1)
 
-
-
-#for l in dict_skel.keys():
-#  getLabelClosestSkeleton(dict_skel[l][0], dict_skel, dict_rev, dict_bent)
 
 #functionTestPrecisionVersion2(0.68, models_test, dict_skel, dict_rev, dict_bent)
+functionTestVersion2Camera(0.7, dict_skel, dict_rev, dict_bent)
 
-"""for i in range (19):
-    print(0.05 + i*0.01)
-    dict_skel, dict_rev, dict_bent = constructBaseImages(models, labels_skeleton, 1)
-    functionTestPrecisionVersion2(0.05 + i*0.01, models_test, dict_skel, dict_rev, dict_bent)"""
-
-"""for i in range (2, 31,2):
-    #print(0.05 + i*0.01)
-    print(i)
-    dict_skel, dict_rev, dict_bent = constructBaseImages(models, labels_skeleton, i)
-    start = time.perf_counter() # start of the timer
-    functionTestPrecisionVersion2(0.68, models_test, dict_skel, dict_rev, dict_bent)
-    end = time.perf_counter() # end of the timer
-    print((end - start), " s !")"""
 
 #dict_skel, dict_rev, dict_bent = constructBaseImages(models, labels_skeleton, 30)
 #functionTestPrecisionVersion2(0.68, models_test, dict_skel, dict_rev, dict_bent)
