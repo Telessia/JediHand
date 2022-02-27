@@ -6,6 +6,7 @@
         var affectedCommands = [];//Contain currently affected commands
         var possibleCommands = [];//Contain possible commands (From a Json Config files)
         var IdsArray = [];//Contain DB Ids of the current displayed elements
+        var argsArray = [];//Contain path or url for launch commands
     </script>
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
@@ -33,7 +34,8 @@
         </section>
   
         <div class="displayCommand"></div>
-        <button type="submit" class="saveConfig">Save</button>
+
+        <input type="text" id="arg" style=" display : none "/>
         
         <div class="dropdown-class">
             <div class="dropdown">
@@ -42,6 +44,8 @@
             </div>
         </div>
     </div>
+
+    <button type="submit" class="saveConfig">Save</button>
   
     <form method="post">
         <div class="inputInvisible">
@@ -85,11 +89,20 @@
     
         let textBox = document.querySelector('.textBox');
         let display = document.querySelector('.displayCommand');
+        let textarg = document.getElementById('arg');
         if (mySlides[currentIndex].getAttribute("command") != undefined || mySlides[currentIndex].getAttribute("command")!=""){
             display.innerHTML = mySlides[currentIndex];
+            if (mySlides[currentIndex].getAttribute("command") == "launch_a_link" || mySlides[currentIndex].getAttribute("command") == "launch_a_program"){
+            textarg.style.display = "block"
+            textarg.innerText = argsArray[currentIndex];
+            }
+            else{
+                textarg.style.display= "none"
+            }
         }
         else {
             display.innerHTML = "undefined";
+            textarg.style.display= "none"
         }
     
         var swiper = new Swiper(".mySwiper", {
@@ -106,12 +119,24 @@
             },
             on: {
             slideChange: function () {
+                let textarg = document.getElementById('arg');
+                argsArray[currentIndex] = argtext.innerText; //save the text just before the slide
                 const index_currentSlide = swiper.activeIndex;
                 textBox.value = "";
                 currentIndex = index_currentSlide;
                 
                 console.log(affectedCommands[index_currentSlide]);
                 display.innerHTML = mySlides[currentIndex].getAttribute("command");
+
+                let textarg = document.getElementById('arg');
+            if (mySlides[currentIndex].getAttribute("command") == "launch_a_link" || mySlides[currentIndex].getAttribute("command") == "launch_a_program"){
+            textarg.style.display = "block"
+            textarg.innerText = argsArray[currentIndex];
+            argsArray[currentIndex] = argtext.innerText;
+            }
+            else{
+                textarg.style.display= "none"
+            }
             },
             },
         });

@@ -15,6 +15,7 @@ fetch("./static/js/config.json")
     for (let i = 0; i < mySlides.length; i++) {
         affectedCommands.push(mySlides[i].getAttribute('command'));
         IdsArray.push(mySlides[i].getAttribute('id'));
+        argsArray.push("");
         console.log(mySlides[i].getAttribute('id'));
     }
 });
@@ -22,12 +23,20 @@ fetch("./static/js/config.json")
 function fill_tableau (_possible_commands){
     for(let i in _possible_commands) {
 
+        let argtext = document.getElementById('arg');
         let newLine = document.createElement('div');
         newLine.textContent = _possible_commands[i];
     
         newLine.onclick = function () {
             document.querySelector('.textBox').value = this.innerHTML;
             affectedCommands[currentIndex] = this.innerHTML;
+            if (this.innerHTML == "launch_a_link" || this.innerHTML == "launch_a_program"){
+                textarg.style.display = "block"
+                textarg.innerText = argsArray[currentIndex];
+            }
+            else{
+                textarg.style.display = "none"
+            }
             mySlides[currentIndex].setAttribute("command",this.innerHTML);
             console.log(mySlides[currentIndex].getAttribute("command"));
         }

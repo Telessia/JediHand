@@ -6,6 +6,7 @@ import mediapipe as mp
 import cv2
 import os
 from datetime import datetime
+from bson.objectid import ObjectId
 
 path = 'app/static/default_datas/train/' #Path of the images to load
 
@@ -112,7 +113,7 @@ def update_commands(listIds, listCommands):
   for idx,x in enumerate(listIds):
     print(x)
     print(listCommands[idx])
-    models.update_one({ '_id' : x }, {"$set": { 'command' : str(listCommands[idx]) }}, upsert = False)
+    models.update_one({ '_id' : ObjectId(x) }, {"$set": { 'command' : str(listCommands[idx]) }}, upsert = False)
     print("updated")
   return
     
