@@ -108,12 +108,18 @@ def insert_sign(groupname,original_path,skeleton):
   return True
     
     
-def update_commands(listIds, listCommands):
+def update_commands(listIds, listCommands, listArgs):
   models = db.models
   for idx,x in enumerate(listIds):
+    gm = models.find_one({'_id' : ObjectId(x)})
+    if(gm is None):
+      continue
+    filter = gm["groupname"]
+    if((listCommands[idx]=="launch_a_link")or(listCommands[idx]=="launch_a_program")):
+        listCommands[idx] = listCommands[idx]+" "+listArgs[idx]
     print(x)
     print(listCommands[idx])
-    models.update_one({ '_id' : ObjectId(x) }, {"$set": { 'command' : str(listCommands[idx]) }}, upsert = False)
+    models.update_many({ 'groupname' : filter }, {"$set": { 'command' : str(listCommands[idx]) }}, upsert = False)
     print("updated")
   return
     

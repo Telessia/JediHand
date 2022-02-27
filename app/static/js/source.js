@@ -1,6 +1,7 @@
 
 let dropdownMenu = document.getElementsByClassName('option')[0];
-var mySlides = document.getElementById('wrapper').children;
+
+console.log(mySlides);
 
 fetch("./static/js/config.json")
 .then(response => {
@@ -23,7 +24,6 @@ fetch("./static/js/config.json")
 function fill_tableau (_possible_commands){
     for(let i in _possible_commands) {
 
-        let argtext = document.getElementById('arg');
         let newLine = document.createElement('div');
         newLine.textContent = _possible_commands[i];
     
@@ -31,11 +31,10 @@ function fill_tableau (_possible_commands){
             document.querySelector('.textBox').value = this.innerHTML;
             affectedCommands[currentIndex] = this.innerHTML;
             if (this.innerHTML == "launch_a_link" || this.innerHTML == "launch_a_program"){
-                textarg.style.display = "block"
-                textarg.innerText = argsArray[currentIndex];
+                textArg.style.display = "block"
             }
             else{
-                textarg.style.display = "none"
+                textArg.style.display = "none"
             }
             mySlides[currentIndex].setAttribute("command",this.innerHTML);
             console.log(mySlides[currentIndex].getAttribute("command"));

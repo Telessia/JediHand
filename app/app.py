@@ -81,9 +81,11 @@ def save_commands():
         print("We got in \n")
         listx = json.loads(request.form['ids'])
         listy = json.loads(request.form['commands'])
+        listz = json.loads(request.form['args'])
         print(len(listx))
         print(len(listy))
-        update_commands(listx,listy)
+        print(len(listz))
+        update_commands(listx,listy,listz)
         return redirect(url_for('index'))
     else :
         return redirect(url_for('index'))
