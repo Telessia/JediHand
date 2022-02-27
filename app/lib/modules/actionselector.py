@@ -1,51 +1,31 @@
 #Functions that choose the right action to execute on the OS following the config.json file
-import lib.modules.loader as ld
-import lib.modules.actions as actions
+#import lib.modules.actions as actions
+import actions as actions
+from pymongo import MongoClient
 
-d = ld.load_from_json()#Load commands, signs and affected commands
+client = MongoClient('localhost', 27017, username='root', password='root')
+db = client['jedihand_development'] #name of the database, see docker-compose
 
-for dx in d: #match variable to a string identifier
-    if dx["figure"] == "OneHand_OneFinger" :
-        onefinger = dx
-    if dx["figure"] == "OneHand_TwoFinger" :
-        twofinger = dx
-    if dx["figure"] == "OneHand_ThreeFinger" :
-        threefinger = dx
-    if dx["figure"] == "OneHand_FourFinger" :
-        fourfinger = dx
-    if dx["figure"] == "OneHand_FiveFinger":
-        fivefinger = dx
-
-def select(raisedfingers): #swith to check which number of fingers are raised in front on the camera
+def interprete(label):
+    models = db.models
+    result = models.find_one({"groupname": label })
+    cmd = result["command"]
+    arg = None
+    if(("launch_a_link" in cmd) or ("launch_a_program" in cmd)):
+        cmd,arg = cmd.split(" ")
+    launch(cmd,arg)
     
-    if raisedfingers == 0 : 
-        return -1
-    elif raisedfingers == 1:
-        launch(onefinger)
-        return 0
-    elif raisedfingers == 2:
-        launch(twofinger)
-        return 0
-    elif raisedfingers == 3:
-        launch(threefinger)
-        return 0
-    elif raisedfingers == 4:
-        launch(fourfinger)
-        return 0
-    elif raisedfingers == 5:
-        launch(fivefinger)
-        return 0
-        
-def launch(inst):#Function that call the right action
     
-    if(inst['command'] == "turn_up_volume"):
+def launch(inst,arg):#Function that call the right action
+    
+    if(inst == "turn_up_volume"):
         actions.increase_volume()
-    elif(inst['command']== "turn_down_volume"):
+    elif(inst == "turn_down_volume"):
         actions.decrease_volume()
-    elif(inst['command'] == "launch_a_link"):
-        actions.open_link(inst["link"])
-    elif(inst['command'] == "launch_a_program"):
-        actions.open_program(inst["program"])
+    elif(inst == "launch_a_link"):
+        actions.open_link(arg)
+    elif(inst == "launch_a_program"):
+        actions.open_program(arg)
         
     
     

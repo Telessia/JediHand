@@ -4,6 +4,7 @@ import time
 import cv2
 import mediapipe as mp
 import numpy as np
+import actionselector as AS
 
 from detection import processImageVersion1
 from computefunction import copyOfTabSkeletons
@@ -184,6 +185,7 @@ def functionTestVersion2Camera(valueOfMinTracking, dictionary_skeleton, dictiona
 
                     predicted_label = getLabelClosestSkeleton(skeleton, dictionary_skeleton, dictionary_reverse, dictionary_bent_fingers)
                     print("Sign :", predicted_label)
+                    AS.interprete(predicted_label)
                 i = 0
 
             # Draw the hand annotations on the image.
