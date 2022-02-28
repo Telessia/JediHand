@@ -25,7 +25,6 @@
 
 .saveConfig {
     background-color: #ffd54e;
-    background-clip: text;
     width: fit-content;
     border-radius: 15px;
     margin-top: 15px;
@@ -59,7 +58,6 @@
     border-radius: 5px;
     height: 20px;
     background-color: #ffd54e;
-    background-clip: text;
 }
 
 
