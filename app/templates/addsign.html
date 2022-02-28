@@ -22,7 +22,7 @@
                 <p style="color:greenyellow;">A skeleton has been succesfully generated</p>
                 <p>Enter the sign name :</p>
                 <form method="post" action="{{ url_for('save_sign') }}">
-                    <input type="text" name="groupname" required class="textBox" onblur="this.value=''"/>
+                    <input type="text" name="groupname" required class="textBox"/>
                     <input type="submit" value="Save in DB" class="saveSign">
                 </form>
 
