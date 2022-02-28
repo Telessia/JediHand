@@ -1,9 +1,5 @@
-from re import template
-from tokenize import String
-from flask import Flask
-from flask import render_template, request, url_for, redirect, Response, session
+from flask import Flask, render_template, request, url_for, redirect, Response, session
 from lib.db_initializer import extract_head, init, copyOfTabSkeletons, insert_sign, update_commands
-#from lib.main import stream
 from lib.capture import stream,shot
 import os
 import json
@@ -48,13 +44,11 @@ def capture():
 def list():
     init()
     datas = extract_head()
-    print("Datas :" ,datas, "\n")
     return render_template('list.html',datas=datas)
 
 @app.route('/save_sign',methods=['GET','POST'])
 def save_sign():
     if request.method == 'POST':
-        print("We got in \n")
         groupname = request.form.get("groupname")
         original_path = session.get("original_path")
         skeleton = session.get("skeleton")
@@ -70,9 +64,6 @@ def save_commands():
         listx = json.loads(request.form['ids'])
         listy = json.loads(request.form['commands'])
         listz = json.loads(request.form['args'])
-        print(len(listx))
-        print(len(listy))
-        print(len(listz))
         update_commands(listx,listy,listz)
         return redirect(url_for('index'))
     else :
