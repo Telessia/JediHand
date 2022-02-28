@@ -1,0 +1,34 @@
+version: "3.9"
+services:
+  db:
+    container_name: jedihand-mongodb
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MONGO_INITDB_DATABASE: jedihand_development
+    ports:
+      - "27017:27017"
+    volumes:
+      - "mongodb:/data/db"
+
+  mongo-express:
+    container_name: jedihand-mongo-expres
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${DB_PASSWORD}
+      ME_CONFIG_MONGODB_URL: jedihand-mongodb://root:root@db:27017/
+    depends_on:
+      - db
+
+networks:
+  default:
+    name: mongo
+
+volumes:
+  mongodb:

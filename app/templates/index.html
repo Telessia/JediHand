@@ -1,172 +1,25 @@
-<!DOCTYPE html>
-<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Project JediHand</title>
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
-    />
-    <!-- Déclaration de la variable globale afin d'affecter une commande à une figure-->
-    <script> 
-      var affectedCommands = [];
-      var possibleCommands = [];
-      var possibleFigures = [];
-    </script>
-    <script src='static/js/source.js' async></script>
-    <script src='static/js/config.json' async></script>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>Project JediHand Index</title>
+</head>
 
-    <!-- Link Swiper's CSS -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/swiper/swiper-bundle.min.css"
-    />
-    <link rel="stylesheet" type="text/css" href="static/styles/style.css">
-
-    <!-- Demo styles -->
-    <style>
-      
-    </style>
-  </head>
-
-  <body>
-    <!-- Swiper -->
-    <section>
-      <h1>Jedi Hand</h1>
-      <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <img src="static/images/OneHand_OneFinger.png" />
-          </div>
-          <div class="swiper-slide">
-            <img src="static/images/OneHand_TwoFingers.png" />
-          </div>
-          <div class="swiper-slide">
-            <img src="static/images/OneHand_ThreeFingers.png" />
-          </div>
-          <div class="swiper-slide">
-            <img src="static/images/OneHand_FourFingers.png" />
-          </div>
-          <div class="swiper-slide">
-            <img src="static/images/OneHand_FiveFingers.png" />
-          </div>
+<body class="index-page">
+    {% include 'navbar.html' %}
+    
+    <div class="block-text">
+        <div class="cache-text"></div>
+        <div class="wrapper-text">
+            <div class="scroll-text">
+                <h1>JEDi HAND</h1>
+                <h2>Description</h2>
+                <p>Application JediHand réalisée par Quentin Colras et Xavier Fostier, projet Semestre 10 Master 2 TNSID UPHF Valenciennes</p>
+                <p>Cette application permet d'exécuter des actions sur la machine hôte en effectuant des gestes de la main comme par exemple : monter/diminuer le volume système, lancer un lien web ou une application/script, arrêter/relancer une vidéo Youtube etc...</p>
+                <p>Le menu sur la gauche permet d'accèder aux différents modules de l'application : le rouage permet d'affecter une commande à un signe de la main, la caméra permet d'avoir un retour vidéo lors de la detection des signes et permet de prendre un nouveau signe en photo, l'icone d'image permet l'affichage de tout les signes et leurs commandes associées, enfin vous pouvez également vous rendre sur le Github du projet pour y inspecter/télécharger le code source.</p>
+            </div>
         </div>
-        <div class="swiper-pagination"></div>
-      </div>
-    </section>
-
-    <form method="post">
-      <div class="inputInvisible">
-        <input type="text" name="possibleCommands" class="possibleCommandsInput">
-        <input type="text" name="possibleFigures" class="possibleFiguresInput"> 
-        <input type="text" name="affectedCommands" class="affectedCommandsInput"> 
-      </div>
-
-      <a class="star" href="{{ url_for('streaming') }}">Camera streaming</a>
-      
-      <button type="submit" class="saveConfig">Sauvegarder</button>
-
-    </form>
-
-    <div class="displayCommand"></div>
-    <div class="dropdown-class">
-      <div class="dropdown">
-        <input type="text" class="textBox" placeholder="Dropdown Menu" readonly>
-        <div class="option"></div>
-      </div>
     </div>
-    
-
-    <!-- Swiper JS  -->
-    
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    
-    
-
-    <!-- Initialize Swiper -->
-    <script>
-
-      //alert(JSON.stringify(possibleFigures))
-      //alert(JSON.stringify(affectedCommands))
-      //alert(JSON.stringify(possibleCommands))
-
-      let saveConfigButton = document.querySelector('.saveConfig');
-      saveConfigButton.onclick = function() {
-        //alert(affectedCommands);
-
-        let inputPossibleCommand = document.querySelector('.possibleCommandsInput');
-        inputPossibleCommand.value = JSON.stringify(possibleCommands);
-
-        let inputAffectation = document.querySelector('.affectedCommandsInput');
-        inputAffectation.value = JSON.stringify(affectedCommands);
-
-        let inputPossibleFigure = document.querySelector('.possibleFiguresInput');
-        inputPossibleFigure.value = JSON.stringify(possibleFigures);
-      }   
-
-      var currentIndex = 0;
-
-      let textBox = document.querySelector('.textBox');
-      let display = document.querySelector('.displayCommand');
-      if (affectedCommands[currentIndex] != undefined){
-        display.innerHTML = affectedCommands[currentIndex].command;
-      }
-      else {
-        display.innerHTML = "None affected";
-      }
-      
-
-      var swiper = new Swiper(".mySwiper", {
-        effect: "coverflow",
-        grabCursor: true,
-        centeredSlides: true,
-        slidesPerView: "auto",
-        coverflowEffect: {
-          rotate: 0,
-          stretch: 30, //A quelle point les autres sont retirés
-          depth: 200, //Profondeur des autres slides
-          modifier: 2, //Multiplicateur ??
-          slideShadows: true,
-        },
-        pagination: {
-          el: ".swiper-pagination",
-        },
-        on: {
-          slideChange: function () {
-            const index_currentSlide = swiper.activeIndex;
-            textBox.value = "";
-            currentIndex = index_currentSlide;
-            
-            console.log(affectedCommands[index_currentSlide].command);
-            display.innerHTML = affectedCommands[currentIndex].command;
-          },
-        },
-      });
-
-      //alert(JSON.stringify(affectedCommands));
-
-      
-      
-      /*saveConfigButton.addEventListener('click', async _ => {
-      try {     
-        const response = await fetch('/config', {
-          method: 'post',
-          body: {
-            affectedCommands
-          }
-        });
-          console.log('Completed!', response);
-        } catch(err) {
-          console.error(`Error: ${err}`);
-        }
-       });*/
-
-      let dropdown = document.querySelector('.dropdown');
-      dropdown.onclick = function() {
-        dropdown.classList.toggle('active');
-      }
-      
-    </script>
-  </body>
+</body>
 </html>

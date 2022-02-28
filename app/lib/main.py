@@ -1,8 +1,8 @@
 import mediapipe as mp
 import cv2
-import backend.modules.detection as dt
-import backend.styles.styles as styles
-import backend.modules.actionselector as a_s
+import lib.modules.detection as dt
+import lib.styles.styles as styles
+import lib.modules.actionselector as a_s
 
 mp_drawing = mp.solutions.drawing_utils
 #mp_drawing_styles = mp.solutions.drawing_styles
@@ -63,6 +63,7 @@ def stream():
       #cv2.imshow('MediaPipe Hands',image)
       print(counter)
       ret, buffer = cv2.imencode('.jpg', image)
+      cv2.imshow("Stream",image)
       image = buffer.tobytes()
       yield (b'--frame\r\n'
         b'Content-Type: image/jpeg\r\n\r\n' + image + b'\r\n')  # concat frame one by one and show result

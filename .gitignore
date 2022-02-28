@@ -12,3 +12,11 @@
 
 ###pycache
 **/__pycache__/**
+
+###Ignore dataset
+**/train/**
+**/test_set**
+**/valid_set/**
+**/static/default_datas/test/**
+**/static/default_datas/train/**
+**/static/default_datas/valid/**

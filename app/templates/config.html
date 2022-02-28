@@ -1,11 +1,174 @@
-<!doctype html>
-<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-<title>Jedihand config</title>
-<head><h1>Config page</h1></head>
+<html>
+<head>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <!-- Déclaration de la variable globale afin d'affecter une commande à une figure-->
+    <script> 
+        var affectedCommands = [];//Contain currently affected commands
+        var possibleCommands = [];//Contain possible commands (From a Json Config files)
+        var IdsArray = [];//Contain DB Ids of the current displayed elements
+        var argsArray = [];//Contain path or url for launch commands
+        var mySlides;
+        var previousindex = -1;
+    </script>
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+    <link rel="stylesheet" type="text/css" href="static/styles/styleconfig.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Project JediHand Configuration</title>
+</head>
+
 <body>
-    <form method="post">
-        <input type="text" name="One finger" id="textone"> 
+    {% include 'navbar.html' %}
+      
+    <div class="block-text">
+        <section>
+            <h1>Configuration</h1>
+            <div class="swiper mySwiper" name="swiperr">
+            <div class="swiper-wrapper" id="wrapper" name="wrapperr">  
+                {% for x in datas %}
+                <div class="swiper-slide" id="{{ x._id }}" command="{{ x.command }}" name="slide">
+                    <!--<li id ="groupanme{{ x.groupname }}">{{x.groupname}}</li>-->
+                    <img src= "{{ x.picpath }}" alt="Can't load picture" style="width:300px;height:300px;">
+                </div>
+                {% endfor %}
+            </div>
+            <div class="swiper-pagination"></div>
+        </section>
+  
+        <div class="displayCommand"></div>
+        <input type="text" class="textArg" style=" display : none; margin-left : auto;
+        margin-right: auto; "/>
         
-        <button type="submit">Send to json</button>
+        <div class="dropdown-class">
+            <div class="dropdown">
+                <input type="text" class="textBox" placeholder="Select a command" readonly>
+                <div class="option"></div>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="saveConfig">Save</button>
+  
+    <form method="post">
+        <div class="inputInvisible">
+            <input type="text" name="possibleCommands" class="possibleCommandsInput">
+            <input type="text" name="IdsArray" class="IdsArrayInput"> 
+            <input type="text" name="affectedCommands" class="affectedCommandsInput"> 
+            <input type="text" name="argsArray" class="argsArrayInput"> 
+        </div>
     </form>
+      
+  
+    <!-- Swiper JS -->
+    <script src='static/js/source.js' async></script>
+    <script src='static/js/config.json' async></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  
+    <!-- Initialize Swiper -->
+    <script>
+        
+        mySlides = document.getElementById('wrapper').children;
+
+        let saveConfigButton = document.querySelector('.saveConfig');
+        saveConfigButton.onclick = function() {
+      
+            let inputAffectation = document.querySelector('.affectedCommandsInput');
+            inputAffectation.value = JSON.stringify(affectedCommands);
+
+            let inputIdsArray = document.querySelector('.IdsArrayInput');
+            inputIdsArray.value = JSON.stringify(IdsArray);
+
+            let inputArgs = document.querySelector('.argsArrayInput');
+            inputArgs.value = JSON.stringify(argsArray);
+
+            console.log("Try to save")
+            console.log(inputAffectation)
+            console.log(inputIdsArray)
+            console.log("argsArray :", inputArgs)
+
+            $.ajax({ 
+                url: "{{url_for('save_commands')}}", 
+                type: 'POST', 
+                data: {'commands' : inputAffectation.value, 'args' : inputArgs.value, 'ids': inputIdsArray.value},
+                traditional: true,
+            })
+        }
+  
+        var currentIndex = 0;
+    
+        let textBox = document.querySelector('.textBox');
+        let display = document.querySelector('.displayCommand');
+        let textArg = document.querySelector('.textArg');
+        console.log(textArg);
+
+        if (affectedCommands[currentIndex] != undefined){
+            display.innerHTML = affectedCommands[currentIndex];
+        }
+        else {
+            display.innerHTML = "undefined";
+        }
+
+        if (mySlides[currentIndex].getAttribute("command") != undefined || mySlides[currentIndex].getAttribute("command")!=""){
+            display.innerHTML = mySlides[currentIndex];
+            if (mySlides[currentIndex].getAttribute("command") == "launch_a_link" || mySlides[currentIndex].getAttribute("command") == "launch_a_program"){
+                textArg.style.display = "block"
+                textArg.innerText = argsArray[currentIndex];
+            }
+            else{
+                textArg.style.display= "none"
+            }
+        }
+        else {
+            display.innerHTML = "undefined";
+            textArg.style.display= "none"
+        }
+
+    
+        var swiper = new Swiper(".mySwiper", {
+            effect: "cube",
+            grabCursor: true,
+            cubeEffect: {
+            shadow: true,
+            slideShadows: true,
+            shadowOffset: 20,
+            shadowScale: 0.94,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+            },
+            on: {
+                slideChange: function () {
+                    if(previousindex != -1){
+                        argsArray[previousindex]=textArg.value;
+                        console.log("Previous arg", argsArray[previousindex]);
+                    }
+                    const index_currentSlide = swiper.activeIndex;
+                    textBox.value = "";
+                    currentIndex = index_currentSlide;
+                    previousindex=currentIndex;
+                    
+                    console.log(affectedCommands[index_currentSlide]);
+                    display.innerHTML = mySlides[currentIndex].getAttribute("command");
+
+                    //let textarg = document.getElementById('arg');
+                    if (affectedCommands[currentIndex] == "launch_a_link" || affectedCommands[currentIndex] == "launch_a_program"){
+                        textArg.style.display = "block"
+                        console.log("current arg : ",argsArray[currentIndex])
+                        textArg.value = argsArray[currentIndex];
+                    }
+                    else{
+                        textArg.style.display= "none"
+                        textArg.value = ""
+                    }
+                },
+            },
+        });
+    
+        //Open Dropdown
+        let dropdown = document.querySelector('.dropdown');
+        dropdown.onclick = function() {
+            dropdown.classList.toggle('active');
+        }
+    </script>
 </body>
+</html>

@@ -1,15 +1,32 @@
-<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-<link rel="stylesheet" type="text/css" href="static/styles/style.css">
+<html>
+<head>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" type="text/css" href="static/styles/styleconfig.css">
+    <title>Project JediHand Streaming</title>
+</head>
 <body>
-    <div class="container">
-            <div class="h2star">Live Streaming</div>
-                <style>
-                    .img-container {
-                        display: block;
-                        margin-left: auto;
-                        margin-right: auto;
-                    }
-                  </style>
-                <img class="img-container" src="{{ url_for('video_feed') }}" width="60%">
+    {% include 'navbar.html' %}
+    <div class="block-text">
+        <div class="container">
+            <h1>Live Streaming</h1>
+            <form method="get" class="star" id="captureform" action="{{ url_for('capture') }}">
+                <input type="submit" class="saveConfig" value="Take a picture">
+            </form>
+
+            <div id="loader-cont" style="display: none; color:white;">
+                Please do not move</br>
+                {% include 'loader.html' %}
+            </div>
+            <img class="img-container" id="flow" src="{{ url_for('video_feed') }}" width="45%">
+        </div>
     </div>
-    </body>
+    <script>
+        const form = document.getElementById('captureform');
+        const spinner = document.getElementById('loader-cont');
+        form.addEventListener('submit', (e) => {
+            console.log("Fais un truc stp");
+            spinner.style.display ="block";
+        });
+    </script>
+</body>
+</html>
