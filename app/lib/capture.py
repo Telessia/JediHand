@@ -4,7 +4,6 @@ import cv2
 import lib.styles.styles as styles
 
 mp_drawing = mp.solutions.drawing_utils
-#mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
 counter = 0 #count the frame before performing an action
 cache = 0
@@ -39,16 +38,13 @@ def stream():
               image,
               hand_landmarks,
               mp_hands.HAND_CONNECTIONS,
-              #mp_drawing_styles.get_default_hand_landmarks_style(),
               styles.get_default_hand_landmarks_style(),
-              #mp_drawing_styles.get_default_hand_connections_style())
               styles.get_default_hand_connections_style())
       # Flip the image horizontally for a selfie-view display.
       image = cv2.flip(image, 1)
       image_height, image_width, _ = image.shape
       textcoord = (image_width - 200, image_height - 60)
       ret, buffer = cv2.imencode('.jpg', image)
-      #cv2.imshow("Stream",image)
       image = buffer.tobytes()
       yield (b'--frame\r\n'
         b'Content-Type: image/jpeg\r\n\r\n' + image + b'\r\n')  # concat frame one by one and show result
@@ -84,17 +80,13 @@ def shot():
               image,
               hand_landmarks,
               mp_hands.HAND_CONNECTIONS,
-              #mp_drawing_styles.get_default_hand_landmarks_style(),
               styles.get_default_hand_landmarks_style(),
-              #mp_drawing_styles.get_default_hand_connections_style())
               styles.get_default_hand_connections_style())
       # Flip the image horizontally for a selfie-view display.
       no_flip_with_marks = image
       image = cv2.flip(image, 1)
       # Cropping an image
       ret, buffer = cv2.imencode('.jpg', image)
-      #cv2.imshow("Stream",image)
-      #image = buffer.tobytes()
       path_original = "app/static/tmp/lastest.jpg"
       path = "app/static/tmp/lastest_with_marks.jpg"
       if results.multi_hand_landmarks:

@@ -1,10 +1,8 @@
-import ast
-import shutil
-from tokenize import group
 from pymongo import MongoClient
 import mediapipe as mp
 import cv2
 import os
+import shutil
 from datetime import datetime
 from bson.objectid import ObjectId
 
@@ -20,9 +18,10 @@ db = client['jedihand_development'] #name of the database, see docker-compose
 
 mp_hands = mp.solutions.hands
 
-def copyOfTabSkeletons(tabSkeleton):
+# Function that returns a copy of an array of points by removing the attributes
+def copyOfTabSkeletons(tab_skeleton):
     tabReturn = []
-    for tabP in tabSkeleton:
+    for tabP in tab_skeleton:
         tabT = []
         tabT.append(tabP.x)
         tabT.append(tabP.y)
@@ -41,9 +40,8 @@ def init():
       static_image_mode=True,
       max_num_hands=2,
       min_detection_confidence=0.5) as hands:
-    for idx, file in enumerate(files):
+    for _, file in enumerate(files):
         
-      #print("File name :", path+file,"\n")
       image = cv2.flip(cv2.imread(path+file), 1)
       # Convert the BGR image to RGB before processing.
       results = hands.process(image=cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
@@ -76,10 +74,8 @@ def extract_head(): #Function that get the header of our base signs
   extracted = []
   models = db.models
   groupbase = models.distinct("groupname")
-  print(groupbase)
   for x in groupbase: #We will loop over all the base groupnames
     result = models.find_one({"groupname": x })
-    #print(result['_id'])
     extracted.append(result)
   return extracted
 
@@ -117,8 +113,6 @@ def update_commands(listIds, listCommands, listArgs):
     filter = gm["groupname"]
     if((listCommands[idx]=="launch_a_link")or(listCommands[idx]=="launch_a_program")):
         listCommands[idx] = listCommands[idx]+" "+listArgs[idx]
-    print(x)
-    print(listCommands[idx])
     models.update_many({ 'groupname' : filter }, {"$set": { 'command' : str(listCommands[idx]) }}, upsert = False)
     print("updated")
   return
