@@ -32,6 +32,9 @@ A partir de cette page index, on peut se déplacer sur les différentes pages gr
 2. En dessous des images nous avons un bouton "Sauvegarder", le nom de la commande associé à l'image, et un menu déroulant qui va afficher les commandes possibles que l'on peut associer à l'image.<br />
 Pour associer une figure à une commande, on doit cliquer sur le menu déroulant, sélectionner une commande en cliquant dessus.<br />
 Pour sauvegarder ces changements, il suffit de cliquer sur le bouton "Sauvegarder".
+3. Lorsque la commande associé est "launch_a_program" ou "launch_a_link", il faudra entre une option dans le rectangle blanc qui vient d'apparaître :
+ * Lancer un programme : exemple ( C:\Windows\System32\notepad.exe )
+ * Lancer un lien : exemple ( youtube.com )
 
 ![Screenshot](images/dropdown_menu.png)
 
