@@ -32,22 +32,18 @@ models = db.models
 models_test = db.models_test
 
 labels_skeleton = extract_labels(models)
-print(len(labels_skeleton))
 
 dict_skel = {}
 dict_rev = {}
 dict_bent = {}
 dict_skel, dict_rev, dict_bent = constructBaseImages(models, labels_skeleton, 50)
 
-
+# # --- Function to test Version 1 here : --- # #
 #functionTestPrecisionVersion2(0.68, models_test, dict_skel, dict_rev, dict_bent)
 functionTestVersion2Camera(0.7, dict_skel, dict_rev, dict_bent)
 
 
+# # --- Function to test Version 2 here : --- # #
 #functionTestPrecisionVersion1(0.68, 0.7, labels, dictionary_sign_fingers)
 #functionTestVersion1Camera(0.7)
-
-"""for i in range (19):
-    print(0.05 + i*0.05)
-    functionTestPrecisionVersion1(0.05 + i*0.05, 0.7, labels, dictionary_sign_fingers)"""
 

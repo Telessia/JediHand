@@ -27,7 +27,6 @@
             <div class="swiper-wrapper" id="wrapper" name="wrapperr">  
                 {% for x in datas %}
                 <div class="swiper-slide" id="{{ x._id }}" command="{{ x.command }}" name="slide">
-                    <!--<li id ="groupanme{{ x.groupname }}">{{x.groupname}}</li>-->
                     <img src= "{{ x.picpath }}" alt="Can't load picture" style="width:300px;height:300px;">
                 </div>
                 {% endfor %}
@@ -37,7 +36,7 @@
   
         <div class="displayCommand"></div>
         <input type="text" class="textArg" style=" display : none; margin-left : auto;
-        margin-right: auto; "/>
+            margin-right: auto; "/>
         
         <div class="dropdown-class">
             <div class="dropdown">
@@ -81,11 +80,6 @@
             let inputArgs = document.querySelector('.argsArrayInput');
             inputArgs.value = JSON.stringify(argsArray);
 
-            console.log("Try to save")
-            console.log(inputAffectation)
-            console.log(inputIdsArray)
-            console.log("argsArray :", inputArgs)
-
             $.ajax({ 
                 url: "{{url_for('save_commands')}}", 
                 type: 'POST', 
@@ -99,7 +93,6 @@
         let textBox = document.querySelector('.textBox');
         let display = document.querySelector('.displayCommand');
         let textArg = document.querySelector('.textArg');
-        console.log(textArg);
 
         if (affectedCommands[currentIndex] != undefined){
             display.innerHTML = affectedCommands[currentIndex];
@@ -109,7 +102,7 @@
         }
 
         if (mySlides[currentIndex].getAttribute("command") != undefined || mySlides[currentIndex].getAttribute("command")!=""){
-            display.innerHTML = mySlides[currentIndex];
+            
             if (mySlides[currentIndex].getAttribute("command") == "launch_a_link" || mySlides[currentIndex].getAttribute("command") == "launch_a_program"){
                 textArg.style.display = "block"
                 textArg.innerText = argsArray[currentIndex];
@@ -140,20 +133,15 @@
                 slideChange: function () {
                     if(previousindex != -1){
                         argsArray[previousindex]=textArg.value;
-                        console.log("Previous arg", argsArray[previousindex]);
                     }
                     const index_currentSlide = swiper.activeIndex;
                     textBox.value = "";
                     currentIndex = index_currentSlide;
                     previousindex=currentIndex;
                     
-                    console.log(affectedCommands[index_currentSlide]);
                     display.innerHTML = mySlides[currentIndex].getAttribute("command");
-
-                    //let textarg = document.getElementById('arg');
                     if (affectedCommands[currentIndex] == "launch_a_link" || affectedCommands[currentIndex] == "launch_a_program"){
                         textArg.style.display = "block"
-                        console.log("current arg : ",argsArray[currentIndex])
                         textArg.value = argsArray[currentIndex];
                     }
                     else{

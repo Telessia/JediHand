@@ -1,34 +1,31 @@
 
 let dropdownMenu = document.getElementsByClassName('option')[0];
 
-console.log(mySlides);
-
 fetch("./static/js/config.json")
 .then(response => {
    return response.json();
 })
 .then(jsondata => {
     possibleCommands = jsondata.possibleCommands;
-    //On ajoute la liste des commandes possibles dans le choix du menu dropdown
+    // we add the list of possible commands in the dropdown menu choice
     fill_tableau(possibleCommands);
 
-    //On assigne les commandes déjà assignés
+    // we assign the commands already assigned
     for (let i = 0; i < mySlides.length; i++) {
-       var str= mySlides[i].getAttribute('command') 
-        if((str.includes("launch_a_link"))||(str.includes("launch_a_program"))){
-            console.log("LAUNCH COMMAND ", str)
-            const words = str.split(" ");
-            affectedCommands.push(words[0]);
-            mySlides[i].setAttribute('command',words[0])
-            argsArray.push(words[1]);
+        var str= mySlides[i].getAttribute('command')
+        if (str != null) {
+            if((str.includes("launch_a_link"))||(str.includes("launch_a_program"))){
+                const words = str.split(" ");
+                affectedCommands.push(words[0]);
+                mySlides[i].setAttribute('command',words[0])
+                argsArray.push(words[1]);
+                IdsArray.push(mySlides[i].getAttribute('id'));
+                continue
+            }
+            affectedCommands.push(str);
             IdsArray.push(mySlides[i].getAttribute('id'));
-            continue
-        }
-        console.log(mySlides[i].getAttribute('command'))
-        console.log(typeof(mySlides[i].getAttribute('command')))
-        affectedCommands.push(str);
-        IdsArray.push(mySlides[i].getAttribute('id'));
-        argsArray.push("");
+            argsArray.push("");
+        }  
     }
 });
 
@@ -48,7 +45,6 @@ function fill_tableau (_possible_commands){
                 textArg.style.display = "none"
             }
             mySlides[currentIndex].setAttribute("command",this.innerHTML);
-            console.log(mySlides[currentIndex].getAttribute("command"));
         }
     
         dropdownMenu.insertAdjacentElement('beforeend', newLine);

@@ -8,7 +8,6 @@
 
 .saveConfig {
     background-color: #ffd54e;
-    background-clip: text;
     width: fit-content;
     border-radius: 15px;
     margin-top: 15px;
@@ -48,7 +47,6 @@
 
 .saveSign {
     background-color: #ffd54e;
-    background-clip: text;
     width: fit-content;
     border-radius: 15px;
     margin-left: 15px;
@@ -81,7 +79,6 @@
 
 .label-display {
     background-color: #ffd54e;
-    background-clip: text;
     width: fit-content;
     border-radius: 15px;
     margin-left: auto;

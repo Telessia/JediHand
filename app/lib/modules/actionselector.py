@@ -1,5 +1,4 @@
 #Functions that choose the right action to execute on the OS following the config.json file
-#import lib.modules.actions as actions
 import actions as actions
 from pymongo import MongoClient
 
