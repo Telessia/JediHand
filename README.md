@@ -1,9 +1,9 @@
 # JediHand
-Projet Semestre 10 Master 2 TNSID - Système de détection des mains et applications de commandes sur le système - DeepLearning - Python
+Projet Semestre 10 Master 2 TNSID - Système de détection des mains et application de commandes sur le système hôte 
+- > DeepLearning - Python (Flask - MongoDB)
 
-<br />
 
-## FrontEnd (privilégié le navigateur FireFox):
+## FrontEnd (privilégier le navigateur Firefox):
 Concernant le frontend c'est un site internet qui se lance en exécutant le fichier app.py qui se trouve dans le dossier app.
 
 On allant sur l'ip obtenu grâce à l'exécution, nous nous retrouvons sur cette page, avec une explication du projet :<br />
